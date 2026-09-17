@@ -20,8 +20,7 @@ struct LauncherView: View {
             }
         }
         .task {
-            // Keep the launcher visible briefly so the app
-            // branding can be seen without delaying startup unnecessarily.
+           
             try? await Task.sleep(for: .milliseconds(1000))
 
             withAnimation(.easeInOut(duration: 0.25)) {
