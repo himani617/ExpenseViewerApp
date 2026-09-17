@@ -28,8 +28,6 @@ final class ExpenseListViewModel {
         ExpenseSummary.from(expenses)
     }
 
-    
-    
     // MARK: - Networking
 
     func loadExpenses() async {
