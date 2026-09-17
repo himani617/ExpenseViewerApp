@@ -14,25 +14,17 @@ struct ExpenseListView: View {
 
     var body: some View {
         NavigationStack {
-
             Group {
                 if !reachability.isConnected {
                     offlineView
-                } else  if viewModel.isLoading && viewModel.expenses.isEmpty {
-
+                } else if viewModel.isLoading && viewModel.expenses.isEmpty {
                     loadingView
-
                 } else if let errorMessage = viewModel.errorMessage,
                           viewModel.expenses.isEmpty {
-
                     errorView(message: errorMessage)
-
                 } else if viewModel.expenses.isEmpty {
-
                     EmptyExpensesView()
-
                 } else {
-
                     expenseList
                 }
             }
@@ -79,19 +71,35 @@ struct ExpenseListView: View {
 
     private var expenseList: some View {
         List {
+            // Summary Header
+            Section {
+                ExpenseSummaryView(
+                    summary: viewModel.summary
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Expense summary")
+            }
 
             // Expenses
-            Section("All Expenses") {
+            Section {
                 ForEach(viewModel.expenses) { expense in
                     NavigationLink {
                         ExpenseDetailView(expense: expense)
                     } label: {
                         ExpenseRowView(expense: expense)
                     }
+                    .accessibilityHint("Double tap to view expense details")
                 }
+            } header: {
+                Text("All Expenses")
+                    .accessibilityAddTraits(.isHeader)
             }
         }
         .listStyle(.plain)
+        .accessibilityLabel("Expenses list")
     }
 
     // MARK: - Loading
@@ -99,12 +107,16 @@ struct ExpenseListView: View {
     private var loadingView: some View {
         VStack(spacing: 12) {
             ProgressView()
+                .accessibilityLabel("Loading expenses")
 
             Text("Loading expenses...")
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Loading expenses")
     }
-
 
     // MARK: - Error
 
@@ -123,12 +135,10 @@ struct ExpenseListView: View {
                 }
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityHint("Attempts to load the expenses again")
         }
+        .accessibilityElement(children: .contain)
     }
-}
-
-#Preview {
-    ExpenseListView()
 }
 
 

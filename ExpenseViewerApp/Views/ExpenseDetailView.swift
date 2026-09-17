@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ExpenseDetailView: View {
+
     let expense: Expense
 
     var body: some View {
@@ -36,6 +37,7 @@ struct ExpenseDetailView: View {
                     Circle()
                         .fill(.blue.opacity(0.12))
                 )
+                .accessibilityHidden(true)
 
             Text(expense.title)
                 .font(.title2)
@@ -43,11 +45,20 @@ struct ExpenseDetailView: View {
                 .multilineTextAlignment(.center)
 
             Text(expense.formattedAmount)
-                .font(.system(size: 38, weight: .bold, design: .rounded))
+                .font(
+                    .system(
+                        size: 38,
+                        weight: .bold,
+                        design: .rounded
+                    )
+                )
                 .foregroundStyle(.primary)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(expense.title)
+        .accessibilityValue(expense.formattedAmount)
     }
 
     // MARK: - Details
@@ -62,6 +73,7 @@ struct ExpenseDetailView: View {
 
             Divider()
                 .padding(.leading, 52)
+                .accessibilityHidden(true)
 
             DetailRow(
                 icon: "dollarsign.circle",
@@ -81,6 +93,8 @@ struct ExpenseDetailView: View {
                     lineWidth: 1
                 )
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Expense details")
     }
 
     // MARK: - Metadata
@@ -89,9 +103,14 @@ struct ExpenseDetailView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Transaction Information")
                 .font(.headline)
+                .accessibilityAddTraits(.isHeader)
 
             HStack {
-                Label("Expense ID", systemImage: "number")
+                Label(
+                    "Expense ID",
+                    systemImage: "number"
+                )
+                .accessibilityHidden(true)
 
                 Spacer()
 
@@ -99,17 +118,28 @@ struct ExpenseDetailView: View {
                     .foregroundStyle(.secondary)
                     .font(.subheadline.monospaced())
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Expense ID")
+            .accessibilityValue(expense.id)
 
             Divider()
+                .accessibilityHidden(true)
 
             HStack {
-                Label("Currency", systemImage: "banknote")
+                Label(
+                    "Currency",
+                    systemImage: "banknote"
+                )
+                .accessibilityHidden(true)
 
                 Spacer()
 
                 Text("USD")
                     .foregroundStyle(.secondary)
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Currency")
+            .accessibilityValue("US dollars")
         }
         .padding()
         .background(
@@ -123,12 +153,15 @@ struct ExpenseDetailView: View {
                     lineWidth: 1
                 )
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Transaction information")
     }
 }
 
 // MARK: - Detail Row
 
 private struct DetailRow: View {
+
     let icon: String
     let title: String
     let value: String
@@ -139,6 +172,7 @@ private struct DetailRow: View {
                 .font(.headline)
                 .foregroundStyle(.blue)
                 .frame(width: 28)
+                .accessibilityHidden(true)
 
             Text(title)
                 .font(.body)
@@ -151,5 +185,8 @@ private struct DetailRow: View {
                 .multilineTextAlignment(.trailing)
         }
         .padding(.vertical, 16)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityValue(value)
     }
 }

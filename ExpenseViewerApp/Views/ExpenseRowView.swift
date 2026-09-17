@@ -13,7 +13,8 @@ struct ExpenseRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
+
+            HStack(alignment: .firstTextBaseline) {
                 Text(expense.title)
                     .font(.headline)
 
@@ -24,9 +25,17 @@ struct ExpenseRowView: View {
             }
 
             Text(expense.formattedDate)
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(expense.title)
+        .accessibilityValue(
+            "\(expense.formattedAmount), \(expense.formattedDate)"
+        )
+        .accessibilityHint(
+            "Double tap to view expense details"
+        )
     }
 }
