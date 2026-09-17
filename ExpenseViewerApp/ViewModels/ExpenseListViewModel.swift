@@ -22,7 +22,14 @@ final class ExpenseListViewModel {
         self.service = service
     }
 
+    // MARK: - Summary
 
+    var summary: ExpenseSummary {
+        ExpenseSummary.from(expenses)
+    }
+
+    
+    
     // MARK: - Networking
 
     func loadExpenses() async {
