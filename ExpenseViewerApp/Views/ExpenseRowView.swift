@@ -8,11 +8,25 @@
 import SwiftUI
 
 struct ExpenseRowView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-#Preview {
-    ExpenseRowView()
+    let expense: Expense
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(expense.title)
+                    .font(.headline)
+
+                Spacer()
+
+                Text(expense.formattedAmount)
+                    .font(.headline)
+            }
+
+            Text(expense.formattedDate)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 6)
+    }
 }
