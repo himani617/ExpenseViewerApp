@@ -7,12 +7,12 @@
 
 import Foundation
 import Network
-import Combine
 
 @MainActor
-final class NetworkReachability: ObservableObject {
+@Observable
+final class NetworkReachability {
 
-    @Published private(set) var isConnected = true
+   private(set) var isConnected = true
 
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(
