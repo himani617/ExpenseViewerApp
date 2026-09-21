@@ -10,7 +10,7 @@ import SwiftUI
 struct ExpenseListView: View {
 
     @State private var viewModel = ExpenseListViewModel()
-    @StateObject private var reachability = NetworkReachability()
+    @State private var reachability = NetworkReachability()
 
     var body: some View {
         NavigationStack {
